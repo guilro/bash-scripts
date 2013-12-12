@@ -15,7 +15,7 @@ O=0;
 while true
 do
 	sleep $((60*$1))
-	cvlc son.ogg >> /dev/null 2>&1 &
+	cvlc son.ogg vlc://quit >> /dev/null 2>&1 &
 	rep="?"
 	while [ $rep != "O" ] && [ $rep != "N" ]
 	do
