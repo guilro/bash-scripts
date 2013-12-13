@@ -3,11 +3,15 @@
 [ $1 -eq 0 ] 2>/dev/null
 if  [ $? -ne 0 -a $? -ne 1 ]
 then
-	echo "Usage : work.sh [delay]";
+	echo "Usage : work.sh [delay] [notify|sound]";
 	exit;
 fi
 
-
+if [ $2 != "notify" ] && [ $rep != "sound" ]
+then
+	echo "Usage : work.sh [delay] [notify|sound]";
+	exit;
+fi
 
 N=0;
 O=0;
@@ -15,8 +19,17 @@ O=0;
 while true
 do
 	sleep $((60*$1))
-	cvlc son.ogg vlc://quit >> /dev/null 2>&1 &
+
+	if [ $2 = "sound" ]
+	then
+		cvlc son.ogg vlc://quit >> /dev/null 2>&1 &
+	elif [ $2 = "notify" ]
+	then
+		notify-send "Suis-je entrain de travailler ?";
+	fi
+
 	rep="?"
+
 	while [ $rep != "O" ] && [ $rep != "N" ]
 	do
 		echo "Suis-je entrain de travailler ? (O/N)"
